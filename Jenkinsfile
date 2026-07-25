@@ -5,15 +5,39 @@ pipeline {
         choice(
             name: 'ENVIRONMENT',
             choices: ['staging', 'production'],
-            description: 'Target Environment'
+            description: 'Select deployment environment'
         )
     }
 
     stages {
+
         stage('Build') {
             steps {
-                echo "Building for ${params.ENVIRONMENT}"
+                echo 'Building application...'
             }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "Deploying application to ${params.ENVIRONMENT} environment..."
+            }
+        }
+    }
+
+    post {
+
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+
+        failure {
+            echo 'Pipeline failed. Please check the logs.'
         }
     }
 }
